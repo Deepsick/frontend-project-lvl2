@@ -11,7 +11,7 @@ const inputFormats = ['json', 'yml'];
 const getFixturePath = (fileName) => join(__dirname, '..', '__fixtures__', fileName);
 const readFile = (fileName) => readFileSync(getFixturePath(fileName), 'utf-8');
 
-/* Hexlet-check throws error if let is used, so beforeAll hook can't be used :( */
+/* Hexlet-check throws an error if let is used, so beforeAll hook can't be used :( */
 const jsonResult = readFile('result.json');
 const plainResult = readFile('result.plain');
 const stylishResult = readFile('result.stylish');
