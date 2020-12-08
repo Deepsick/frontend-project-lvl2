@@ -36,9 +36,7 @@ const stringify = (node, depth) => {
 };
 
 const format = (nodes, depth = 1) => {
-  const rows = [];
-
-  nodes.forEach((node) => {
+  const rows = nodes.map((node) => {
     const {
       type,
       key,
@@ -53,29 +51,29 @@ const format = (nodes, depth = 1) => {
     const strNewValue = stringify(newValue, depth);
 
     if (type === KeyType.REMOVED) {
-      rows.push(`${Prefix.REMOVED}${key}: ${strValue}`);
+      return `${Prefix.REMOVED}${key}: ${strValue}`;
     }
 
     if (type === KeyType.ADDED) {
-      rows.push(`${Prefix.ADDED}${key}: ${strValue}`);
+      return `${Prefix.ADDED}${key}: ${strValue}`;
     }
 
     if (type === KeyType.NESTED) {
-      rows.push(`${Prefix.UNCHANGED}${key}: ${format(children, depth + 1)}`);
-    }
-
-    if (type === KeyType.UNCHANGED) {
-      rows.push(`${Prefix.UNCHANGED}${key}: ${strValue}`);
+      return `${Prefix.UNCHANGED}${key}: ${format(children, depth + 1)}`;
     }
 
     if (type === KeyType.UPDATED) {
-      rows.push(`${Prefix.REMOVED}${key}: ${strOldValue}`);
-      rows.push(`${Prefix.ADDED}${key}: ${strNewValue}`);
+      return [
+        `${Prefix.REMOVED}${key}: ${strOldValue}`,
+        `${Prefix.ADDED}${key}: ${strNewValue}`,
+      ];
     }
+
+    return `${Prefix.UNCHANGED}${key}: ${strValue}`;
   });
 
   const braceIndent = makeIndent(depth - 1, Offset.BRACE);
-  const formattedRows = rows.map((row) => `${makeIndent(depth)}${row}`);
+  const formattedRows = rows.flat(1).map((row) => `${makeIndent(depth)}${row}`);
   return `{\n${formattedRows.join('\n')}\n${braceIndent}}`;
 };
 

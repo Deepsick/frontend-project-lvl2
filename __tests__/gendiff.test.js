@@ -6,18 +6,19 @@ import genDiff from '../index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const outputFormats = ['stylish', 'json', 'plain'];
 const inputFormats = ['json', 'yml'];
 
 const getFixturePath = (fileName) => join(__dirname, '..', '__fixtures__', fileName);
 const readFile = (fileName) => readFileSync(getFixturePath(fileName), 'utf-8');
 
-const result = {};
+/* eslint-disable no-unused-vars */
+let jsonResult;
+let plainResult;
+let stylishResult;
 beforeAll(() => {
-  outputFormats.forEach((format) => {
-    const data = readFile(`result.${format}`);
-    result[format] = data;
-  });
+  jsonResult = readFile('result.json');
+  plainResult = readFile('result.plain');
+  stylishResult = readFile('result.stylish');
 });
 
 describe('Test gendiff unit', () => {
@@ -25,9 +26,19 @@ describe('Test gendiff unit', () => {
     const path1 = getFixturePath(`file1.${format}`);
     const path2 = getFixturePath(`file2.${format}`);
 
-    test.each(outputFormats)('Should work for %s output format', (outputFormat) => {
-      const diff = genDiff(path1, path2, outputFormat);
-      expect(diff).toBe(result[outputFormat]);
+    test('Should work for json output format', () => {
+      const diff = genDiff(path1, path2, 'json');
+      expect(diff).toBe(jsonResult);
+    });
+
+    test('Should work for stylish output format', () => {
+      const diff = genDiff(path1, path2, 'stylish');
+      expect(diff).toBe(stylishResult);
+    });
+
+    test('Should work for plain output format', () => {
+      const diff = genDiff(path1, path2, 'plain');
+      expect(diff).toBe(plainResult);
     });
   });
 
@@ -36,6 +47,6 @@ describe('Test gendiff unit', () => {
     const path2 = getFixturePath('file2.yml');
 
     const diff = genDiff(path1, path2);
-    expect(diff).toBe(result.stylish);
+    expect(diff).toBe(stylishResult);
   });
 });
