@@ -1,0 +1,42 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "Script to diff two files",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deepsick/frontend-project-lvl2.git"
+  },
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "scripts": {
+    "test": "npx -n --experimental-vm-modules jest"
+  },
+  "keywords": [
+    "differ",
+    "script",
+    "tree"
+  ],
+  "engines": {
+    "node": ">=13.14.0"
+  },
+  "type": "module",
+  "author": "Deepsick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Deepsick/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/Deepsick/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "6.2.0",
+    "js-yaml": "3.14.1",
+    "lodash": "4.17.20"
+  },
+  "devDependencies": {
+    "eslint": "7.15.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "jest": "26.6.3"
+  }
+}
