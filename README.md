@@ -11,7 +11,7 @@ Read files and return diff according to picked format
 
 ## Installation
 
-Python packaging and dependency management tool ```npm``` should be preinstalled.
+NodeJs packaging and dependency management tool ```npm``` should be preinstalled.
 
 ```bash
 make install
