@@ -11,15 +11,10 @@ const inputFormats = ['json', 'yml'];
 const getFixturePath = (fileName) => join(__dirname, '..', '__fixtures__', fileName);
 const readFile = (fileName) => readFileSync(getFixturePath(fileName), 'utf-8');
 
-/* eslint-disable no-unused-vars */
-let jsonResult;
-let plainResult;
-let stylishResult;
-beforeAll(() => {
-  jsonResult = readFile('result.json');
-  plainResult = readFile('result.plain');
-  stylishResult = readFile('result.stylish');
-});
+/* Hexlet-check throws error if let is used, so beforeAll hook can't be used :( */
+const jsonResult = readFile('result.json');
+const plainResult = readFile('result.plain');
+const stylishResult = readFile('result.stylish');
 
 describe('Test gendiff unit', () => {
   describe.each(inputFormats)('Should work for %s input format', (format) => {
