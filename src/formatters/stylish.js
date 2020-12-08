@@ -13,7 +13,12 @@ const Prefix = {
   UNCHANGED: '  ',
 };
 
-const makeIndent = (depth, offset = Offset.DEFAULT, indentSize = INDENT_SIZE, indentType = INDENT_TYPE) => indentType.repeat(depth * indentSize - offset);
+const makeIndent = (
+  depth,
+  offset = Offset.DEFAULT,
+  indentSize = INDENT_SIZE,
+  indentType = INDENT_TYPE,
+) => indentType.repeat(depth * indentSize - offset);
 
 const stringify = (node, depth) => {
   const indent = makeIndent(depth + 1);
