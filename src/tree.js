@@ -2,8 +2,8 @@ import _ from 'lodash';
 import { KeyType } from './const.js';
 
 const buildDiff = (data1, data2) => {
-  const keys = _.union(_.keys(data1), _.keys(data2)).sort();
-  const nodes = keys.map((key) => {
+  const keys = _.union(_.keys(data1), _.keys(data2));
+  const nodes = _.sortBy(keys).map((key) => {
     const oldValue = data1[key];
     const newValue = data2[key];
 

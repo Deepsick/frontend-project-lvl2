@@ -25,13 +25,12 @@ const mapNodeTypeToFormatter = {
 };
 
 const format = (nodes, path = []) => {
-  const result = [];
-  nodes.forEach((node) => {
+  const rows = nodes.map((node) => {
     const { type } = node;
-    result.push(mapNodeTypeToFormatter[type](node, path, format));
+    return mapNodeTypeToFormatter[type](node, path, format);
   });
 
-  return result.flat(1).join('\n');
+  return rows.flat(1).join('\n');
 };
 
 export default format;
