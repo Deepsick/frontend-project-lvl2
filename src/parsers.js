@@ -1,21 +1,15 @@
 import yaml from 'js-yaml';
 
-const Format = {
-  JSON: 'json',
-  YML: 'yml',
-  YAML: 'yaml',
-};
-
 const parse = (data, format) => {
-  if (format === Format.JSON) {
-    return JSON.parse(data);
+  switch(format) {
+    case 'json':
+      return JSON.parse(data);
+    case 'yml':
+    case 'yaml':
+      return yaml.safeLoad(data);
+    default:
+      throw new Error(`Unknown format: ${format}`);
   }
-
-  if (format === Format.YAML || format === Format.YML) {
-    return yaml.safeLoad(data);
-  }
-
-  throw new Error('There is no such format');
 };
 
 export default parse;

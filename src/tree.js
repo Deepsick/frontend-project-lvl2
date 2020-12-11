@@ -4,14 +4,14 @@ import NodeType from './nodeTypes.js';
 const buildDiff = (data1, data2) => {
   const keys = _.union(_.keys(data1), _.keys(data2));
   const nodes = _.sortBy(keys).map((key) => {
-    const oldValue = data1[key];
-    const newValue = data2[key];
+    const firstValue = data1[key];
+    const secondValue = data2[key];
 
     if (!_.has(data2, key)) {
       return {
         type: NodeType.REMOVED,
         key,
-        value: oldValue,
+        value: firstValue,
       };
     }
 
@@ -19,15 +19,15 @@ const buildDiff = (data1, data2) => {
       return {
         type: NodeType.ADDED,
         key,
-        value: newValue,
+        value: secondValue,
       };
     }
 
-    if (_.isObject(oldValue) && _.isObject(newValue)) {
+    if (_.isObject(firstValue) && _.isObject(secondValue)) {
       return {
         type: NodeType.NESTED,
         key,
-        children: buildDiff(oldValue, newValue),
+        children: buildDiff(firstValue, secondValue),
       };
     }
 
@@ -35,15 +35,15 @@ const buildDiff = (data1, data2) => {
       return {
         type: NodeType.UPDATED,
         key,
-        oldValue,
-        newValue,
+        firstValue,
+        secondValue,
       };
     }
 
     return {
       type: NodeType.UNCHANGED,
       key,
-      value: oldValue,
+      value: firstValue,
     };
   });
 
