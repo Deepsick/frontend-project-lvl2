@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { KeyType } from '../const.js';
+import NodeType from '../nodeTypes.js';
 
 const buildPath = (path, key) => [...path, key].join('.');
 
@@ -16,11 +16,11 @@ const stringify = (value) => {
 };
 
 const mapNodeTypeToFormatter = {
-  [KeyType.ADDED]: ({ key, value }, path) => `Property '${buildPath(path, key)}' was added with value: ${stringify(value)}`,
-  [KeyType.REMOVED]: ({ key }, path) => `Property '${buildPath(path, key)}' was removed`,
-  [KeyType.UPDATED]: ({ key, oldValue, newValue }, path) => `Property '${buildPath(path, key)}' was updated. From ${stringify(oldValue)} to ${stringify(newValue)}`,
-  [KeyType.UNCHANGED]: () => [],
-  [KeyType.NESTED]: ({ key, children }, path, format) => format(children, [...path, key]),
+  [NodeType.ADDED]: ({ key, value }, path) => `Property '${buildPath(path, key)}' was added with value: ${stringify(value)}`,
+  [NodeType.REMOVED]: ({ key }, path) => `Property '${buildPath(path, key)}' was removed`,
+  [NodeType.UPDATED]: ({ key, oldValue, newValue }, path) => `Property '${buildPath(path, key)}' was updated. From ${stringify(oldValue)} to ${stringify(newValue)}`,
+  [NodeType.UNCHANGED]: () => [],
+  [NodeType.NESTED]: ({ key, children }, path, format) => format(children, [...path, key]),
 
 };
 

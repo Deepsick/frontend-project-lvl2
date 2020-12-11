@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { KeyType } from '../const.js';
+import NodeType from '../nodeTypes.js';
 
 const Offset = {
   DEFAULT: 2,
@@ -50,19 +50,19 @@ const format = (nodes, depth = 1) => {
     const strOldValue = stringify(oldValue, depth);
     const strNewValue = stringify(newValue, depth);
 
-    if (type === KeyType.REMOVED) {
+    if (type === NodeType.REMOVED) {
       return `${Prefix.REMOVED}${key}: ${strValue}`;
     }
 
-    if (type === KeyType.ADDED) {
+    if (type === NodeType.ADDED) {
       return `${Prefix.ADDED}${key}: ${strValue}`;
     }
 
-    if (type === KeyType.NESTED) {
+    if (type === NodeType.NESTED) {
       return `${Prefix.UNCHANGED}${key}: ${format(children, depth + 1)}`;
     }
 
-    if (type === KeyType.UPDATED) {
+    if (type === NodeType.UPDATED) {
       return [
         `${Prefix.REMOVED}${key}: ${strOldValue}`,
         `${Prefix.ADDED}${key}: ${strNewValue}`,
