@@ -35,8 +35,8 @@ const stringify = (node, depth) => {
   return node;
 };
 
-const format = (nodes, depth = 1) => {
-  const rows = nodes.flatMap((node) => {
+const format = (nodes) => {
+  const iterate = (nodes, depth = 1) => nodes.flatMap((node) => {
     const {
       type,
       key,
@@ -47,6 +47,7 @@ const format = (nodes, depth = 1) => {
     } = node;
 
     const indent = makeIndent(depth);
+    const braceIndent = makeIndent(depth, Offset.BRACE);
     const strValue = stringify(value, depth);
     const strFirstValue = stringify(firstValue, depth);
     const strSecondValue = stringify(secondValue, depth);
@@ -60,7 +61,12 @@ const format = (nodes, depth = 1) => {
     }
 
     if (type === NODE_TYPE.nested) {
-      return `${indent}${PREFIX.unchanged}${key}: ${format(children, depth + 1)}`;
+      const rows = iterate(children, depth + 1);
+      return [
+        `${indent}${PREFIX.unchanged}${key}: {`,
+        ...rows,
+        `${braceIndent}}`,
+      ];
     }
 
     if (type === NODE_TYPE.updated) {
@@ -73,8 +79,8 @@ const format = (nodes, depth = 1) => {
     return `${indent}${PREFIX.unchanged}${key}: ${strValue}`;
   });
 
-  const braceIndent = makeIndent(depth - 1, Offset.BRACE);
-  return `{\n${rows.join('\n')}\n${braceIndent}}`;
+  const rows = iterate(nodes);
+  return `{\n${rows.join('\n')}\n}`;
 };
 
 export default format;
