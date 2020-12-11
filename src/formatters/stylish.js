@@ -21,10 +21,9 @@ const makeIndent = (
 ) => indentType.repeat(depth * indentSize - offset);
 
 const stringify = (node, depth) => {
-  const indent = makeIndent(depth + 1);
-  const braceIndent = makeIndent(depth, OFFSET.brace);
-
   if (_.isObject(node)) {
+    const indent = makeIndent(depth + 1);
+    const braceIndent = makeIndent(depth, OFFSET.brace);
     const rows = _.keys(node).map((key) => {
       const strValue = stringify(node[key], depth + 1);
       return `${indent}  ${key}: ${strValue}\n`;
