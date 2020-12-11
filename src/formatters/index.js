@@ -3,7 +3,7 @@ import formatStylish from './stylish.js';
 import formatJson from './json.js';
 
 const formatTree = (tree, format) => {
-  switch(format) {
+  switch (format) {
     case 'plain':
       return formatPlain(tree);
     case 'stylish':

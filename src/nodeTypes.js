@@ -7,4 +7,3 @@ const NODE_TYPE = {
 };
 
 export default NODE_TYPE;
-
