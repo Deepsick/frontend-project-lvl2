@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import NodeType from '../nodeTypes.js';
+import NODE_TYPE from '../nodeTypes.js';
 
 const buildPath = (path, key) => [...path, key].join('.');
 
@@ -16,21 +16,21 @@ const stringify = (value) => {
 };
 
 const mapNodeTypeToFormatter = {
-  [NodeType.ADDED]: ({ key, value }, path) => `Property '${buildPath(path, key)}' was added with value: ${stringify(value)}`,
-  [NodeType.REMOVED]: ({ key }, path) => `Property '${buildPath(path, key)}' was removed`,
-  [NodeType.UPDATED]: ({ key, firstValue, secondValue }, path) => `Property '${buildPath(path, key)}' was updated. From ${stringify(firstValue)} to ${stringify(secondValue)}`,
-  [NodeType.UNCHANGED]: () => [],
-  [NodeType.NESTED]: ({ key, children }, path, format) => format(children, [...path, key]),
+  [NODE_TYPE.added]: ({ key, value }, path) => `Property '${buildPath(path, key)}' was added with value: ${stringify(value)}`,
+  [NODE_TYPE.removed]: ({ key }, path) => `Property '${buildPath(path, key)}' was removed`,
+  [NODE_TYPE.updated]: ({ key, firstValue, secondValue }, path) => `Property '${buildPath(path, key)}' was updated. From ${stringify(firstValue)} to ${stringify(secondValue)}`,
+  [NODE_TYPE.unchanged]: () => [],
+  [NODE_TYPE.nested]: ({ key, children }, path, format) => format(children, [...path, key]),
 
 };
 
 const format = (nodes, path = []) => {
-  const rows = nodes.map((node) => {
+  const rows = nodes.flatMap((node) => {
     const { type } = node;
     return mapNodeTypeToFormatter[type](node, path, format);
   });
 
-  return rows.flat(1).join('\n');
+  return rows.join('\n');
 };
 
 export default format;

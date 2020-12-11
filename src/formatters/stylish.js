@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import NodeType from '../nodeTypes.js';
+import NODE_TYPE from '../nodeTypes.js';
 
 const Offset = {
   DEFAULT: 2,
@@ -7,10 +7,10 @@ const Offset = {
 };
 const INDENT_SIZE = 4;
 const INDENT_TYPE = ' ';
-const Prefix = {
-  ADDED: '+ ',
-  REMOVED: '- ',
-  UNCHANGED: '  ',
+const PREFIX = {
+  added: '+ ',
+  removed: '- ',
+  unchanged: '  ',
 };
 
 const makeIndent = (
@@ -36,7 +36,7 @@ const stringify = (node, depth) => {
 };
 
 const format = (nodes, depth = 1) => {
-  const rows = nodes.map((node) => {
+  const rows = nodes.flatMap((node) => {
     const {
       type,
       key,
@@ -46,35 +46,35 @@ const format = (nodes, depth = 1) => {
       children,
     } = node;
 
+    const indent = makeIndent(depth);
     const strValue = stringify(value, depth);
     const strFirstValue = stringify(firstValue, depth);
     const strSecondValue = stringify(secondValue, depth);
 
-    if (type === NodeType.REMOVED) {
-      return `${Prefix.REMOVED}${key}: ${strValue}`;
+    if (type === NODE_TYPE.removed) {
+      return `${indent}${PREFIX.removed}${key}: ${strValue}`;
     }
 
-    if (type === NodeType.ADDED) {
-      return `${Prefix.ADDED}${key}: ${strValue}`;
+    if (type === NODE_TYPE.added) {
+      return `${indent}${PREFIX.added}${key}: ${strValue}`;
     }
 
-    if (type === NodeType.NESTED) {
-      return `${Prefix.UNCHANGED}${key}: ${format(children, depth + 1)}`;
+    if (type === NODE_TYPE.nested) {
+      return `${indent}${PREFIX.unchanged}${key}: ${format(children, depth + 1)}`;
     }
 
-    if (type === NodeType.UPDATED) {
+    if (type === NODE_TYPE.updated) {
       return [
-        `${Prefix.REMOVED}${key}: ${strFirstValue}`,
-        `${Prefix.ADDED}${key}: ${strSecondValue}`,
+        `${indent}${PREFIX.removed}${key}: ${strFirstValue}`,
+        `${indent}${PREFIX.added}${key}: ${strSecondValue}`,
       ];
     }
 
-    return `${Prefix.UNCHANGED}${key}: ${strValue}`;
+    return `${indent}${PREFIX.unchanged}${key}: ${strValue}`;
   });
 
   const braceIndent = makeIndent(depth - 1, Offset.BRACE);
-  const formattedRows = rows.flat(1).map((row) => `${makeIndent(depth)}${row}`);
-  return `{\n${formattedRows.join('\n')}\n${braceIndent}}`;
+  return `{\n${rows.join('\n')}\n${braceIndent}}`;
 };
 
 export default format;

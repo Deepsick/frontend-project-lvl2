@@ -1,10 +1,10 @@
-const NodeType = {
-  REMOVED: 'removed',
-  ADDED: 'added',
-  UPDATED: 'updated',
-  NESTED: 'nested',
-  UNCHANGED: 'unchanged',
+const NODE_TYPE = {
+  removed: 'removed',
+  added: 'added',
+  updated: 'updated',
+  nested: 'nested',
+  unchanged: 'unchanged',
 };
 
-export default NodeType;
+export default NODE_TYPE;
 

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import NodeType from './nodeTypes.js';
+import NODE_TYPE from './nodeTypes.js';
 
 const buildDiff = (data1, data2) => {
   const keys = _.union(_.keys(data1), _.keys(data2));
@@ -9,7 +9,7 @@ const buildDiff = (data1, data2) => {
 
     if (!_.has(data2, key)) {
       return {
-        type: NodeType.REMOVED,
+        type: NODE_TYPE.removed,
         key,
         value: firstValue,
       };
@@ -17,7 +17,7 @@ const buildDiff = (data1, data2) => {
 
     if (!_.has(data1, key)) {
       return {
-        type: NodeType.ADDED,
+        type: NODE_TYPE.added,
         key,
         value: secondValue,
       };
@@ -25,7 +25,7 @@ const buildDiff = (data1, data2) => {
 
     if (_.isObject(firstValue) && _.isObject(secondValue)) {
       return {
-        type: NodeType.NESTED,
+        type: NODE_TYPE.nested,
         key,
         children: buildDiff(firstValue, secondValue),
       };
@@ -33,7 +33,7 @@ const buildDiff = (data1, data2) => {
 
     if (!_.isEqual(data1[key], data2[key])) {
       return {
-        type: NodeType.UPDATED,
+        type: NODE_TYPE.updated,
         key,
         firstValue,
         secondValue,
@@ -41,7 +41,7 @@ const buildDiff = (data1, data2) => {
     }
 
     return {
-      type: NodeType.UNCHANGED,
+      type: NODE_TYPE.unchanged,
       key,
       value: firstValue,
     };
