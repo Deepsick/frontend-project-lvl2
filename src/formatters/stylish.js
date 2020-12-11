@@ -41,14 +41,14 @@ const format = (nodes, depth = 1) => {
       type,
       key,
       value,
-      oldValue,
-      newValue,
+      firstValue,
+      secondValue,
       children,
     } = node;
 
     const strValue = stringify(value, depth);
-    const strOldValue = stringify(oldValue, depth);
-    const strNewValue = stringify(newValue, depth);
+    const strFirstValue = stringify(firstValue, depth);
+    const strSecondValue = stringify(secondValue, depth);
 
     if (type === NodeType.REMOVED) {
       return `${Prefix.REMOVED}${key}: ${strValue}`;
@@ -64,8 +64,8 @@ const format = (nodes, depth = 1) => {
 
     if (type === NodeType.UPDATED) {
       return [
-        `${Prefix.REMOVED}${key}: ${strOldValue}`,
-        `${Prefix.ADDED}${key}: ${strNewValue}`,
+        `${Prefix.REMOVED}${key}: ${strFirstValue}`,
+        `${Prefix.ADDED}${key}: ${strSecondValue}`,
       ];
     }
 

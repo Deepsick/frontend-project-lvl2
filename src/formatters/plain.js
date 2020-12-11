@@ -18,7 +18,7 @@ const stringify = (value) => {
 const mapNodeTypeToFormatter = {
   [NodeType.ADDED]: ({ key, value }, path) => `Property '${buildPath(path, key)}' was added with value: ${stringify(value)}`,
   [NodeType.REMOVED]: ({ key }, path) => `Property '${buildPath(path, key)}' was removed`,
-  [NodeType.UPDATED]: ({ key, oldValue, newValue }, path) => `Property '${buildPath(path, key)}' was updated. From ${stringify(oldValue)} to ${stringify(newValue)}`,
+  [NodeType.UPDATED]: ({ key, firstValue, secondValue }, path) => `Property '${buildPath(path, key)}' was updated. From ${stringify(firstValue)} to ${stringify(secondValue)}`,
   [NodeType.UNCHANGED]: () => [],
   [NodeType.NESTED]: ({ key, children }, path, format) => format(children, [...path, key]),
 
